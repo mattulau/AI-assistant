@@ -26,7 +26,7 @@ const sendMessage = async() => {
     headers:{
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify([...messages, {role: 'user', content: messages}])
+    body: JSON.stringify([...messages, {role: 'user', content: message}])
   }).then(async(res) => {
     const reader = res.body.getReader()
     const decoder = new TextDecoder()
@@ -37,8 +37,8 @@ const sendMessage = async() => {
       }
       const text = decoder.decode(value || new Int8Array(), {stream: true})
       setMessages((messages) => {
-        let lastMessage = messages[messages.length() - 1]
-        let otherMessages = messages.slice(0, messages.length() - 1)
+        let lastMessage = messages[messages.length - 1]
+        let otherMessages = messages.slice(0, messages.length - 1)
         return[
           ...otherMessages,
           {
@@ -98,8 +98,7 @@ const sendMessage = async() => {
                   {message.content}
                 </Box>
               </Box>
-            ))
-          }
+            ))}
         </Stack>
         <Stack direction="row" spacing={2}>
           <TextField
